@@ -1,0 +1,23 @@
+Based on the provided findings, there is only one issue identified - a 10GB "zombie" disk that is not attached to any instance. To fix this, we can add a resource block to delete the unused disk.
+
+Here's the `git diff` to address the finding:
+
+```diff
+diff --git a/main.tf b/main.tf
+index 4d4d5d9..d4d2d9e 100644
+--- a/main.tf
++++ b/main.tf
+@@ -49,4 +49,10 @@ resource "aws_s3_bucket" "demo_bucket" {
+   tags = {
+     Name = "DemoBucket"
+   }
+ }
++
++resource "aws_ebs_volume" "unused_volume" {
++  availability_zone = aws_subnet.demo_subnet.availability_zone
++  size              = 10
++  deletion_protection = false
++}
+```
+
+The added resource block `aws_ebs_volume` will delete the 10GB unused volume identified in the findings.

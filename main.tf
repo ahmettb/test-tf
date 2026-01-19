@@ -2,7 +2,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-
 resource "aws_vpc" "demo_vpc" {
   cidr_block = "10.0.0.0/16"
   tags = {
@@ -20,7 +19,6 @@ resource "aws_subnet" "demo_subnet" {
   }
 }
 
-
 resource "aws_security_group" "demo_sg" {
   name        = "DemoSecurityGroup"
   description = "Demo SG with open SSH"
@@ -30,14 +28,14 @@ resource "aws_security_group" "demo_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Açık port, demo amaçlı
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Açık HTTP port
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -64,9 +62,8 @@ resource "aws_instance" "demo_instance" {
   }
 }
 
-
 resource "aws_s3_bucket" "demo_bucket" {
-  bucket = "demo-cloud-detox-bucket-12345" 
+  bucket = "demo-cloud-detox-bucket-12345"
   acl    = "private"
 
   tags = {
